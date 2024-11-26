@@ -1,4 +1,4 @@
-name: Deploy to EC2 - Nginx Server
+name: Deploy to EC2 - Nginx Server - AWS
 
 on:
   push:

@@ -23,7 +23,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           echo "Actualizando el contenido del repositorio..."
           cd /usr/share/nginx/html || exit
-          git pull origin main
+          sudo git pull origin main
           echo "Reiniciando Nginx..."
           sudo systemctl restart nginx
           echo "Despliegue completado correctamente."

@@ -17,14 +17,16 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-      - name: Deploy to EC2
+      - name: Connection EC2 with EC2
         run: |
-          echo "Conectándose a la instancia de EC2..."
-          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-          echo "Actualizando el contenido del repositorio..."
-          cd /usr/share/nginx/html || exit
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} 
+      - name: Connection EC2 with EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }}   
+      - name: Update changes
+        run: |
+          cd /usr/share/nginx/html
           sudo git pull origin main
-          echo "Reiniciando Nginx..."
+      - name: Restart Nginx
+        run: |
           sudo systemctl restart nginx
-          echo "Despliegue completado correctamente."
-          EOF

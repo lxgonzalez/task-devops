@@ -17,16 +17,14 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
-
       - name: Deploy to EC2
         run: |
           echo "Conectándose a la instancia de EC2..."
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-          echo "Actualizando el servidor..."
-          pkill node || true
-          cd ~/Actions-task-and-EC2 || exit
+          echo "Actualizando el contenido del repositorio..."
+          cd /usr/share/nginx/html || exit
           git pull origin main
-          npm install
-          nohup node server.js > output.log 2>&1 &
-          echo "Servidor reiniciado correctamente."
+          echo "Reiniciando Nginx..."
+          sudo systemctl restart nginx
+          echo "Despliegue completado correctamente."
           EOF
